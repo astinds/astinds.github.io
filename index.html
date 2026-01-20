@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognitive Insight Engine v3.0</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-content">
+                <h1><i class="fas fa-brain"></i> Cognitive Insight Engine</h1>
+                <p class="subtitle">Advanced Psychological Pattern Analysis System v3.0</p>
+                <div class="version-badge">ENHANCED EDITION</div>
+            </div>
+            <div class="header-stats">
+                <div class="stat">
+                    <span class="stat-label">Markers</span>
+                    <span class="stat-value" id="marker-count">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Patterns</span>
+                    <span class="stat-value" id="pattern-count">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Coherence</span>
+                    <span class="stat-value" id="coherence-score">--</span>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Input Section -->
+            <section class="input-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-edit"></i> Text Analysis</h2>
+                    <div class="input-controls">
+                        <button id="clear-btn" class="btn btn-secondary">
+                            <i class="fas fa-eraser"></i> Clear
+                        </button>
+                        <button id="example-btn" class="btn btn-secondary">
+                            <i class="fas fa-magic"></i> Load Example
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="input-wrapper">
+                    <textarea id="user-input" placeholder="Write freely about your thoughts, feelings, or experiences... 
+Example: 'I always feel like I should be doing more, but nothing ever feels good enough. It's a disaster waiting to happen, and it's probably all my fault.'"></textarea>
+                    <div id="highlight-overlay"></div>
+                </div>
+                
+                <div class="input-metrics">
+                    <div class="metric">
+                        <span class="metric-label">Words:</span>
+                        <span class="metric-value" id="word-count">0</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Markers:</span>
+                        <span class="metric-value" id="marker-count-small">0</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Density:</span>
+                        <span class="metric-value" id="marker-density">0%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Confidence:</span>
+                        <span class="metric-value" id="confidence-indicator">--</span>
+                    </div>
+                    <button id="analyze-btn" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Analyze Cognitive Patterns
+                    </button>
+                </div>
+            </section>
+
+            <!-- Real-time Analysis Dashboard -->
+            <section class="dashboard-section" id="dashboard" style="display: none;">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-line"></i> Cognitive Analysis Dashboard</h2>
+                    <div class="dashboard-controls">
+                        <button id="export-btn" class="btn btn-secondary">
+                            <i class="fas fa-download"></i> Export JSON
+                        </button>
+                        <button id="toggle-view" class="btn btn-secondary">
+                            <i class="fas fa-expand"></i> Detailed View
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <!-- Pattern Distribution -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-project-diagram"></i> Detected Patterns</h3>
+                            <span class="card-badge" id="pattern-badge">0</span>
+                        </div>
+                        <div class="card-content">
+                            <div id="pattern-list" class="pattern-list"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Core Drivers Radar Chart -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-compass"></i> Core Psychological Drivers</h3>
+                            <span class="card-badge" id="driver-badge">0</span>
+                        </div>
+                        <div class="card-content">
+                            <canvas id="driver-radar"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Temporal Flow -->
+                    <div class="dashboard-card full-width">
+                        <div class="card-header">
+                            <h3><i class="fas fa-stream"></i> Language Evolution</h3>
+                            <span class="card-badge" id="temporal-badge">--</span>
+                        </div>
+                        <div class="card-content">
+                            <div class="temporal-container">
+                                <div class="temporal-labels">
+                                    <div class="temporal-label">Beginning</div>
+                                    <div class="temporal-label">Middle</div>
+                                    <div class="temporal-label">End</div>
+                                </div>
+                                <div id="temporal-chart" class="temporal-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Conflict Alerts -->
+                    <div class="dashboard-card alert-card" id="conflict-section">
+                        <div class="card-header">
+                            <h3><i class="fas fa-exclamation-triangle"></i> Detected Tensions</h3>
+                            <span class="card-badge alert" id="conflict-badge">0</span>
+                        </div>
+                        <div class="card-content">
+                            <div id="conflict-list" class="conflict-list"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Marker Analysis -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-search"></i> Marker Analysis</h3>
+                            <span class="card-badge" id="marker-badge">0</span>
+                        </div>
+                        <div class="card-content">
+                            <div id="marker-analysis" class="marker-analysis"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Deep Insight Narrative -->
+            <section class="insight-section" id="insight-panel" style="display: none;">
+                <div class="section-header">
+                    <h2><i class="fas fa-lightbulb"></i> Psychological Profile</h2>
+                    <div class="insight-controls">
+                        <button id="insight-print" class="btn btn-secondary">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                        <button id="insight-share" class="btn btn-secondary">
+                            <i class="fas fa-share"></i> Share
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="insight-container">
+                    <div class="insight-header">
+                        <div class="insight-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Analysis Date:</span>
+                                <span class="meta-value" id="analysis-date"></span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Engine Version:</span>
+                                <span class="meta-value">v3.0 Enhanced</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Processing Time:</span>
+                                <span class="meta-value" id="processing-time"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="insight-content">
+                        <div class="insight-card primary">
+                            <h3><i class="fas fa-star"></i> Primary Insight</h3>
+                            <div id="primary-insight" class="insight-text"></div>
+                        </div>
+                        
+                        <div class="insight-card">
+                            <h3><i class="fas fa-cogs"></i> Cognitive Patterns Analysis</h3>
+                            <div id="pattern-insight" class="insight-text"></div>
+                        </div>
+                        
+                        <div class="insight-card">
+                            <h3><i class="fas fa-heartbeat"></i> Psychological Drivers</h3>
+                            <div id="driver-insight" class="insight-text"></div>
+                        </div>
+                        
+                        <div class="insight-card">
+                            <h3><i class="fas fa-balance-scale"></i> Internal Coherence</h3>
+                            <div id="coherence-insight" class="insight-text"></div>
+                        </div>
+                        
+                        <div class="insight-card">
+                            <h3><i class="fas fa-road"></i> Therapeutic Direction</h3>
+                            <div id="therapeutic-insight" class="insight-text"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="insight-footer">
+                        <div class="disclaimer">
+                            <p><i class="fas fa-info-circle"></i> <strong>Disclaimer:</strong> This analysis is for informational purposes only and is not a substitute for professional psychological advice, diagnosis, or treatment.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-code"></i> Engine Details</h4>
+                    <p>Cognitive Insight Engine v3.0</p>
+                    <p>Enhanced Pattern Detection System</p>
+                    <p>500+ Psychological Markers</p>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-shield-alt"></i> Privacy</h4>
+                    <p>All analysis performed locally</p>
+                    <p>No data transmitted to servers</p>
+                    <p>Your privacy is protected</p>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-graduation-cap"></i> Research Basis</h4>
+                    <p>Cognitive Behavioral Therapy</p>
+                    <p>Schema Therapy Concepts</p>
+                    <p>Linguistic Analysis Research</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Cognitive Insight Engine | Created for educational and self-reflection purposes</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script src="core/knowledge.js"></script>
+    <script src="core/engine.js"></script>
+    <script src="core/conflict.js"></script>
+    <script src="core/interface.js"></script>
+    
+    <script>
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Example texts for demonstration
+            const examples = [
+                "I always feel like I should be doing more, but nothing ever feels good enough. It's a disaster waiting to happen, and it's probably all my fault. I'm never going to succeed at this rate.",
+                "Sometimes I worry that people think I'm not good enough. I should try harder, but when I do, I feel like a failure anyway. Maybe I'm just not cut out for this.",
+                "Everything has to be perfect or it's completely worthless. If I make one mistake, the whole thing is ruined. I must avoid failure at all costs.",
+                "I constantly feel like I'm letting people down. They probably think I'm incompetent. I should have done better, but I'm just not good enough.",
+                "When things go wrong, it's always because of me. I'm the common denominator in every failure. Nothing ever works out, and it's probably my fault."
+            ];
+            
+            // Set up example button
+            document.getElementById('example-btn').addEventListener('click', function() {
+                const randomExample = examples[Math.floor(Math.random() * examples.length)];
+                document.getElementById('user-input').value = randomExample;
+                
+                // Update word count
+                const wordCount = randomExample.split(/\s+/).length;
+                document.getElementById('word-count').textContent = wordCount;
+                document.getElementById('word-count').classList.add('updated');
+                setTimeout(() => {
+                    document.getElementById('word-count').classList.remove('updated');
+                }, 1000);
+            });
+            
+            // Clear button
+            document.getElementById('clear-btn').addEventListener('click', function() {
+                document.getElementById('user-input').value = '';
+                document.getElementById('word-count').textContent = '0';
+                document.getElementById('marker-count').textContent = '0';
+                document.getElementById('marker-count-small').textContent = '0';
+                document.getElementById('marker-density').textContent = '0%';
+                document.getElementById('confidence-indicator').textContent = '--';
+                
+                // Hide dashboard and insight
+                document.getElementById('dashboard').style.display = 'none';
+                document.getElementById('insight-panel').style.display = 'none';
+            });
+            
+            // Real-time word count
+            const textarea = document.getElementById('user-input');
+            textarea.addEventListener('input', function() {
+                const text = this.value;
+                const wordCount = text.split(/\s+/).filter(word => word.length > 0).length;
+                document.getElementById('word-count').textContent = wordCount;
+            });
+            
+            // Analyze button
+            document.getElementById('analyze-btn').addEventListener('click', function() {
+                const text = document.getElementById('user-input').value.trim();
+                if (text.length < 10) {
+                    alert('Please enter at least 10 characters for meaningful analysis.');
+                    return;
+                }
+                
+                // Show loading state
+                const btn = this;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+                btn.disabled = true;
+                
+                // Simulate analysis (in real implementation, this would be actual analysis)
+                setTimeout(() => {
+                    // Initialize and run analysis
+                    if (typeof CognitiveEngine !== 'undefined' && typeof KNOWLEDGE_BASE !== 'undefined') {
+                        const engine = new CognitiveEngine(KNOWLEDGE_BASE);
+                        const analysis = engine.analyze(text);
+                        
+                        // Update interface
+                        if (typeof updateInterface !== 'undefined') {
+                            updateInterface(analysis, text);
+                        }
+                        
+                        // Show dashboard and insights
+                        document.getElementById('dashboard').style.display = 'block';
+                        document.getElementById('insight-panel').style.display = 'block';
+                        
+                        // Update processing time
+                        document.getElementById('processing-time').textContent = '< 1 second';
+                        document.getElementById('analysis-date').textContent = new Date().toLocaleDateString();
+                    } else {
+                        alert('Analysis engine not properly loaded. Please refresh the page.');
+                    }
+                    
+                    // Reset button
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 800);
+            });
+            
+            // Initial UI state
+            document.getElementById('word-count').textContent = '0';
+        });
+    </script>
+</body>
+</html>
